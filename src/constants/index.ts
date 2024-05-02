@@ -140,14 +140,14 @@ export const allFilters: TFilter[] = [
         placeholder: 'Minimum Base Pay Salary',
         title: "Min Base Pay",
         options: [
-            {key: 0, value: "0L"},
-            {key: 10, value: "10L"},
-            {key: 20, value: "20L"},
-            {key: 30, value: "30L"},
-            {key: 40, value: "40L"},
-            {key: 50, value: "50L"},
-            {key: 60, value: "60L"},
-            {key: 70, value: "70L"},
+            {key: 0, value: "0USD"},
+            {key: 10, value: "10USD"},
+            {key: 20, value: "20USD"},
+            {key: 30, value: "30USD"},
+            {key: 40, value: "40USD"},
+            {key: 50, value: "50USD"},
+            {key: 60, value: "60USD"},
+            {key: 70, value: "70USD"},
         ]
     },
     {

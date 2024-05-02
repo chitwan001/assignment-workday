@@ -1,7 +1,7 @@
 import {Grid} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store";
-import {createRef, useCallback, useEffect, useRef} from "react";
+import {createRef, useCallback, useEffect, useRef, useState} from "react";
 import {incrementOffset, updateJobs} from "../../store/jobs-slice";
 import JobCard from "./JobCard";
 import axios from "axios";
@@ -11,6 +11,8 @@ import Loader from "../Loader";
 export default function Jobs() {
     const jobs = useSelector((state: RootState) => state.jobs)
     const loading = useRef(true)
+    const [loaderShown, setLoaderShown] = useState(loading.current)
+
     const dispatch = useDispatch()
 
     const loaderRef = createRef<HTMLDivElement>()
@@ -48,6 +50,10 @@ export default function Jobs() {
 
     }, [jobs.offset]);
 
+    useEffect(() => {
+        setLoaderShown(loading.current)
+    }, [loading.current]);
+
     return (
         <Grid sx={{
             display: "flex",
@@ -72,9 +78,9 @@ export default function Jobs() {
             </Grid>
 
             {
-                loading && (
+                loaderShown && (
                     <div style={{
-                        margin:"auto"
+                        margin: "auto"
                     }}>
                         <Loader/>
                     </div>
