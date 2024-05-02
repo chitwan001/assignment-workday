@@ -1,11 +1,14 @@
 import BaseSelect from "../BaseSelect";
 import {FilterSelectProps, TSelectOption} from "../../../../types";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {styled} from "@mui/material";
+import {useDispatch} from "react-redux";
+import {filterByExperience, filterByMinSalary} from "../../../../store/jobs-slice";
 
 export default function SingleSelect(props: FilterSelectProps) {
     const [selectedOptions, setSelectedOptions] = useState<TSelectOption[]>([])
 
+    const dispatch = useDispatch()
     const handleOptionSelect = (option: TSelectOption) => {
         setSelectedOptions([option])
     }
@@ -28,6 +31,20 @@ export default function SingleSelect(props: FilterSelectProps) {
             </SingleSelectOption>
         )
     }
+
+    useEffect(() => {
+        const option = selectedOptions[0]
+        if (option) {
+            switch (props.id) {
+                case "minimumSalary":
+                    dispatch(filterByMinSalary(option.key as number))
+                    break
+                case "experience":
+                    dispatch(filterByExperience(option.key as number))
+                    break
+            }
+        }
+    }, [selectedOptions]);
 
     return (
         <BaseSelect AS={SingleOption} selectedOptions={selectedOptions}

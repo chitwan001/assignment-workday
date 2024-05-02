@@ -16,8 +16,7 @@ export default function Jobs() {
     const loaderRef = createRef<HTMLDivElement>()
 
     const handleObserver = useCallback((entries: IntersectionObserverEntry[]) => {
-        const target = entries[0];
-        console.log(target.isIntersecting,loading)
+        const target = entries[0]
         if (target.isIntersecting && !loading.current) {
             dispatch(incrementOffset())
         }

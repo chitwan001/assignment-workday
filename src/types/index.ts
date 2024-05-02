@@ -9,11 +9,11 @@ export type TFilter = {
     id: string,
     placeholder: string,
     title: string,
-    options?: TSelectOption[] | TGroupedSelectOption
+    options?: TSelectOption[] | TGroupedSelectOption,
 }
 
 export type TSelectOption = {
-    key: string,
+    key: string | number,
     value: string
 }
 

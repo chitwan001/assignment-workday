@@ -10,7 +10,8 @@ export default function EstimatedSalary({currencyCode, maxJDSalary, minJDSalary}
             fontSize: "14px",
             fontWeight: 300,
             margin: "8px 0",
-            lineHeight: 1.43
+            lineHeight: 1.43,
+            width: "100%"
         }}>
             Estimated Salary:
             {

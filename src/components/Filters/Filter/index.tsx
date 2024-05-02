@@ -35,7 +35,7 @@ export default function Filter({id, type, ...others}: TFilter) {
             flexDirection: "column",
             alignSelf: "end",
         }}>
-            <RenderFilters {...others} type={type}/>
+            <RenderFilters id={id} {...others} type={type}/>
         </Box>
     )
 }
