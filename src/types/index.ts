@@ -8,7 +8,8 @@ export type TFilter = {
     type: FILTER_TYPE,
     id: string,
     placeholder: string,
-    options: TSelectOption[] | TGroupedSelectOption
+    title: string,
+    options?: TSelectOption[] | TGroupedSelectOption
 }
 
 export type TSelectOption = {
@@ -17,7 +18,7 @@ export type TSelectOption = {
 }
 
 export type TGroupedSelectOption = {
-    [K : string]: {
+    [K: string]: {
         name: string,
         children: TSelectOption[]
     }

@@ -21,8 +21,16 @@ export default function SingleSelect(props: FilterSelectProps) {
         marginRight: "2px"
     })
 
+    const SingleOption = ({value, ...others}: { value: string }) => {
+        return (
+            <SingleSelectOption {...others}>
+                {value}
+            </SingleSelectOption>
+        )
+    }
+
     return (
-        <BaseSelect AS={SingleSelectOption} selectedOptions={selectedOptions}
+        <BaseSelect AS={SingleOption} selectedOptions={selectedOptions}
                     handleOptionSelect={handleOptionSelect} {...props}/>
     )
 }
