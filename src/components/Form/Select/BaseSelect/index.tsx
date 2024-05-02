@@ -1,8 +1,7 @@
 import {styled} from "@mui/material";
 import {KeyboardArrowDown} from "@mui/icons-material";
-import {FilterSelectProps} from "../../../../types";
+import {FilterSelectProps, TSelectOption} from "../../../../types";
 import React, {useEffect, useRef, useState} from "react";
-import {addEventListeners, removeEventListeners} from "../../../../utils";
 
 // This is base file for a Select component. It uses MUI functionalities to build Controlled Styled Select Component
 
@@ -105,7 +104,6 @@ const OptionsValueContainer = styled("div")({
 })
 
 const Option = styled("div")({
-    display: "flex",
     paddingTop: "9px",
     paddingBottom: "9px",
     paddingLeft: "12px",
@@ -121,11 +119,22 @@ const GroupName = styled("span")({
     paddingLeft: "12px",
     paddingBottom: 0,
     color: "#ababab",
-    fontSize:"12px",
+    fontSize: "12px",
     letterSpacing: "0.5px"
 })
 
-export default function BaseSelect({placeholder, options}: FilterSelectProps) {
+export default function BaseSelect(
+    {
+        placeholder,
+        options,
+        selectedOptions,
+        handleOptionSelect,
+        AS
+    }: FilterSelectProps & {
+        selectedOptions: TSelectOption[],
+        handleOptionSelect: (option: TSelectOption) => any,
+        AS: any
+    }) {
     const [isSelectFocused, setIsSelectFocused] = useState(false)
     const [searchedText, setSearchedText] = useState("")
     const [isOptionsShown, setIsOptionsShown] = useState(false)
@@ -143,7 +152,10 @@ export default function BaseSelect({placeholder, options}: FilterSelectProps) {
                 <OptionsValueContainer>
                     {
                         options.map((option, index) => (
-                            <Option key={index} data-key={option.key} data-value={option.value}>
+                            <Option key={index} onClick={() => {
+                                if(inputRef.current) inputRef.current.blur()
+                                handleOptionSelect(option)
+                            }}>
                                 {option.value}
                             </Option>
                         ))
@@ -157,18 +169,21 @@ export default function BaseSelect({placeholder, options}: FilterSelectProps) {
                         Object.keys(options).map((key, index) => {
                             const {name, children} = options[key];
                             return (
-                                <>
-                                    <GroupName key={index}>
+                                <div key={index}>
+                                    <GroupName>
                                         {name}
                                     </GroupName>
                                     {
                                         children.map((child, childIndex) => (
-                                            <Option key={childIndex} data-key={child.key} data-value={child.value}>
+                                            <Option onClick={() => {
+                                                if(inputRef.current) inputRef.current.blur()
+                                                handleOptionSelect(child)
+                                            }} key={childIndex} data-key={child.key} data-value={child.value}>
                                                 {child.value}
                                             </Option>
                                         ))
                                     }
-                                </>
+                                </div>
                             )
                         })
                     }
@@ -177,72 +192,39 @@ export default function BaseSelect({placeholder, options}: FilterSelectProps) {
         }
     }
 
-    useEffect(() => {
+    const handleSContainerClick = (e: any) => {
+        e.stopPropagation()
+        if (inputRef.current) inputRef.current.focus()
+        setIsOptionsShown(true)
+    }
 
-        const handleSContainerClick = () => {
-            if (inputRef.current) inputRef.current.focus()
-            setIsOptionsShown(true)
-        }
+    const handleInputFocus = () => {
+        setIsSelectFocused(true)
+    }
 
-        const handleInputFocus = () => {
-            setIsSelectFocused(true)
-        }
-
-        const handleInputFocusOut = () => {
-            setIsSelectFocused(false)
-            setIsOptionsShown(false)
-        }
-
-        const sContainerElem = sContainerRef.current
-        const inputElem = inputRef.current
-
-        const sContainerListeners = [
-            {
-                event: "click",
-                handler: handleSContainerClick
-            }
-        ]
-
-        const inputListeners = [
-            {
-                event: "focus",
-                handler: handleInputFocus
-            },
-            {
-                event: "focusout",
-                handler: handleInputFocusOut
-            }
-        ]
-
-        if (sContainerElem) {
-            addEventListeners(sContainerElem, sContainerListeners)
-        }
-
-        if (inputElem) {
-            addEventListeners(inputElem, inputListeners)
-        }
-
-        return () => {
-            if (sContainerElem) {
-                removeEventListeners(sContainerElem, sContainerListeners)
-            }
-
-            if (inputElem) {
-                removeEventListeners(inputElem, inputListeners)
-            }
-        }
-    }, []);
+    const handleInputFocusOut = () => {
+        setIsSelectFocused(false)
+        setIsOptionsShown(false)
+    }
 
     return (
-        <SelectContainer focused={isSelectFocused} ref={sContainerRef}>
+        <SelectContainer onClick={handleSContainerClick} focused={isSelectFocused} ref={sContainerRef}>
             <ValueContainer>
                 {
-                    searchedText === "" && (
+                    searchedText === "" && selectedOptions.length === 0 && (
                         <Placeholder>{placeholder}</Placeholder>
                     )
                 }
+                {
+                    selectedOptions.map((option, index) => (
+                        <AS key={index} data-key={option.key} data-value={option.value}>
+                            {option.value}
+                        </AS>
+                    ))
+                }
                 <InputContainer data-value={searchedText}>
-                    <input value={searchedText} onChange={handleOnInputChange} ref={inputRef} style={{
+                    <input onFocus={handleInputFocus} onBlur={handleInputFocusOut} value={searchedText}
+                           onChange={handleOnInputChange} ref={inputRef} style={{
                         color: "inherit",
                         background: "0px center",
                         opacity: 1,
