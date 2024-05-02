@@ -152,6 +152,7 @@ export default function BaseSelect(
                             <Option key={index} onClick={() => {
                                 if (inputRef.current) inputRef.current.blur()
                                 handleOptionSelect(option)
+                                setSearchedText('')
                             }}>
                                 {option.value}
                             </Option>
@@ -178,6 +179,7 @@ export default function BaseSelect(
                                                 <Option onClick={() => {
                                                     if (inputRef.current) inputRef.current.blur()
                                                     handleOptionSelect(child)
+                                                    setSearchedText('')
                                                 }} key={childIndex} data-key={child.key} data-value={child.value}>
                                                     {child.value}
                                                 </Option>

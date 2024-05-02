@@ -7,7 +7,8 @@ const Filters = () => {
     const theme = useTheme()
     return (
         <Box sx={{
-            padding: theme.spacing(2)
+            paddingY: theme.spacing(2),
+            paddingX: theme.spacing(7)
         }}>
             <div className={'jobs-filters-root'}>
                 {
