@@ -6,6 +6,7 @@ import {incrementOffset, updateJobs} from "../../store/jobs-slice";
 import JobCard from "./JobCard";
 import axios from "axios";
 import {TJob} from "../../types";
+import Loader from "../Loader";
 
 export default function Jobs() {
     const jobs = useSelector((state: RootState) => state.jobs)
@@ -71,8 +72,17 @@ export default function Jobs() {
 
             </Grid>
 
-            <div ref={loaderRef}/>
+            {
+                loading && (
+                    <div style={{
+                        margin:"auto"
+                    }}>
+                        <Loader/>
+                    </div>
+                )
+            }
 
+            <div ref={loaderRef}/>
 
         </Grid>
     )
