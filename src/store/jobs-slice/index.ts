@@ -1,16 +1,27 @@
-import {createSlice} from '@reduxjs/toolkit'
-import type {PayloadAction} from '@reduxjs/toolkit'
+import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {TJob} from "../../types";
 
 
-const initialState: TJob[] = []
+const initialState: {
+    jobs: TJob[],
+    offset: number
+} = {
+    jobs: [],
+    offset: 0
+}
 
 export const jobsSlice = createSlice({
     name: 'jobs',
     initialState,
     reducers: {
-        getJobs
+        updateJobs: (state, action: PayloadAction<TJob[]>) => {
+            console.log(action.payload)
+            state.jobs.push(...action.payload)
+        },
+        incrementOffset: (state) => {
+            state.offset += 1
+        }
     },
 })
-export const {} = jobsSlice.actions
+export const {updateJobs, incrementOffset} = jobsSlice.actions
 export default jobsSlice.reducer
