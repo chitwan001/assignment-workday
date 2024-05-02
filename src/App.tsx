@@ -1,18 +1,21 @@
 import './App.css'
 import Filters from "./components/Filters";
-import {Grid} from "@mui/material";
+import Jobs from "./components/Jobs";
+import {useEffect} from "react";
+import {setAxiosDefault} from "./axiosDefault.ts";
 
 function App() {
 
-  return (
-    <div>
-        <Filters/>
-        <Grid sx={{
-            width: "100vw",
-            height: "100vh"
-        }}/>
-    </div>
-  )
+    useEffect(() => {
+        setAxiosDefault()
+    }, []);
+
+    return (
+        <div>
+            <Filters/>
+            <Jobs/>
+        </div>
+    )
 }
 
 export default App

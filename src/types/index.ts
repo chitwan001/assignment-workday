@@ -29,4 +29,17 @@ export type EventListener = {
     handler: (props: any) => any
 }
 
+export type TJob = {
+    jdUid: string,
+    jdLink: string,
+    jobDetailsFromCompany: string,
+    maxJdSalary: number,
+    minJdSalary: number,
+    salaryCurrencyCode: string,
+    location: string,
+    minExp: number,
+    maxExp: number,
+    jobRole: string
+}
+
 export type FilterSelectProps = Partial<Omit<TFilter, "type">>
